@@ -1,4 +1,3 @@
-import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import express from "express";
 import userRouts from "./src/Modules/Api/Users/Routers/users.js";

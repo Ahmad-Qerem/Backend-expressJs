@@ -1,14 +1,28 @@
 version: '3.8'
 services:
-  postgres:
-    image: postgres:10.3
+  api:
+    container_name: api
     restart: always
-    environment:
-      - POSTGRES_USER=sammy
-      - POSTGRES_PASSWORD=your_password
-    volumes:
-      - postgres:/var/lib/postgresql/data
+    build: .
     ports:
-      - '5432:5432'
-volumes:
-  postgres:
+      - ${PORT}:${PORT}
+    depends_on:
+      - db
+    environment:
+      PORT : 3000
+      TOKEN_SECRET : 09f26e402586e2faa8da4c98a35f1b20d6b033c6097befa8be3486a829587fe2f90a832bd3ff9d42710a4da095a2ce285b009f0c3730cd9b8e1af3eb84df6611
+      DATABASE_URL: postgresql://postgres:123456@localhost:5432/storage
+
+  db:
+    container_name: postgres
+    image: postgres
+    ports:
+      - '5433:5433'
+    volumes:
+      - data:/data/db
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+
+volumes: 
+ data: {}

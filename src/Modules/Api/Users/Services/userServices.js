@@ -26,6 +26,7 @@ const deleteUser = async (ToDeleteId) => {
 };
 
 const login = async (email, password) => {
+  console.log(" password:", password)
   const user = await prisma.user.findUnique({
     where: {
       email,
