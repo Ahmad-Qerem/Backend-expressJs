@@ -5,20 +5,28 @@ import {
   getAllUsers,
   getUser,
   updateUser,
-  login
+  login,
 } from "../Services/userServices.js";
+import { logout } from "../../../Middleware/Auth/JWT.js";
+import { profileImagesPath } from "../../../../Utils/Constants/constant.js";
 const loginController = async (req, res, next) => {
   try {
-    const {email, password } = req.body;
-    const user = await login(email,password);
-    if (user){
+    const { email, password } = req.body;
+    const user = await login(email, password);
+    if (user) {
       res.send(user);
     }
   } catch (error) {
     next(createError(error));
   }
 };
-
+const logoutController = async (req, res, next) => {
+  try {
+    logout(req, res);
+  } catch (error) {
+    next(createError(error));
+  }
+};
 const getAllUsersController = async (req, res, next) => {
   try {
     const users = await getAllUsers();
@@ -30,8 +38,17 @@ const getAllUsersController = async (req, res, next) => {
 
 const createUserController = async (req, res, next) => {
   try {
-    const data = req.body;
-    const newUser = await createUser(data);
+    // const user = JSON.parse(req.body.data);
+    const user = JSON.parse(req.body.data);
+    const { profile } = user;
+    delete user.profile;
+    const image = req.files.profilePicture;
+    const newUser = await createUser(user, profile, image);
+    console.log(image)
+    
+    if (image) {
+      image.mv(profileImagesPath + image.name);
+    }
     res.send(newUser);
   } catch (error) {
     next(createError(error));
@@ -77,4 +94,5 @@ export {
   updateUserController,
   deleteUserController,
   loginController,
+  logoutController,
 };
