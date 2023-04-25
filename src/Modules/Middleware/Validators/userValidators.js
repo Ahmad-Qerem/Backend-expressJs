@@ -5,4 +5,4 @@ export const loginValidator = [
   body("password").exists().isString().withMessage("invalid password"),
 ];
 
-export const registerValidator = [body("data")..exists().isJSON()];
+export const registerValidator = [body("data").exists().isJSON()];
