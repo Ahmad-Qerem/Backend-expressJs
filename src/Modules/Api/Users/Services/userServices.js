@@ -12,7 +12,7 @@ const createUser = async (userData, userProfile, image) => {
           dateOfBirth: new Date(userProfile.dateOfBirth),
           profileImage: {
             create: {
-              name: image.name,
+              name: image.filename,
               format:image.mimetype
             },
           },
@@ -70,7 +70,7 @@ const getAllUsers = async () => {
           profileImage: {
             select: {
               id: true,
-              path: true,
+              name: true,
             },
           },
         },

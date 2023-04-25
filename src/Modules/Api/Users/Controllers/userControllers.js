@@ -38,17 +38,12 @@ const getAllUsersController = async (req, res, next) => {
 
 const createUserController = async (req, res, next) => {
   try {
-    // const user = JSON.parse(req.body.data);
     const user = JSON.parse(req.body.data);
     const { profile } = user;
     delete user.profile;
-    const image = req.files.profilePicture;
+
+    const image = req.file;
     const newUser = await createUser(user, profile, image);
-    console.log(image)
-    
-    if (image) {
-      image.mv(profileImagesPath + image.name);
-    }
     res.send(newUser);
   } catch (error) {
     next(createError(error));
