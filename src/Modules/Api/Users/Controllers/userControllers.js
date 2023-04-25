@@ -43,7 +43,12 @@ const createUserController = async (req, res, next) => {
     delete user.profile;
 
     const image = req.file;
-    const newUser = await createUser(user, profile, image);
+    let newUser = null;
+    if (image) {
+      newUser = await createUser(user, profile, image);
+    } else {
+      newUser = await createUser(user, profile);
+    }
     res.send(newUser);
   } catch (error) {
     next(createError(error));

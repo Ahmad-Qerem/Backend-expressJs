@@ -10,12 +10,12 @@ const createUser = async (userData, userProfile, image) => {
         create: {
           ...userProfile,
           dateOfBirth: new Date(userProfile.dateOfBirth),
-          profileImage: {
-            create: {
-              name: image.filename,
-              format:image.mimetype
-            },
-          },
+          //   profileImage: {
+          //     create: {
+          //       name: image?.filename,
+          //       format:image?.mimetype
+          //     },
+          //   },
         },
       },
     },

@@ -20,7 +20,7 @@ router.post(
   validationResultMiddleware,
   loginController
 );
-router.post("/register", registerValidator,validationResultMiddleware,multerMiddleware, createUserController);
+router.post("/register",multerMiddleware, createUserController);
 
 router.post("/logout", logoutController);
 router.get("", authenticateToken, getAllUsersController);
