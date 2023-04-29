@@ -12,7 +12,7 @@ const app = express();
 app.use(express.json());
 app.use("/users", userRouts);
 app.use("/transactions", transactionsRouts);
-app.use("/enums/languages", enumsLanguagesRouts);
+app.use("/enums", enumsLanguagesRouts);
 app.use("/courts", courtsRouter);
 app.use("/images/profile", express.static('data/images/userProfileImages'));
 

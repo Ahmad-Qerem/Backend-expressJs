@@ -18,7 +18,7 @@ export const AllLocations =[
     },
 
     {
-        id:0,
+        id:2,
         name:'ديوان قاضي القضاة',
         longitude:31.91794221622228,
         latitude: 35.214485824590795,
@@ -27,7 +27,7 @@ export const AllLocations =[
     },
 
     {
-        id:0,
+        id:3,
         name:'ديوان قاضي القضاة',
         longitude:31.91794221622228,
         latitude: 35.214485824590795,
@@ -36,7 +36,7 @@ export const AllLocations =[
     },
 
     {
-        id:0,
+        id:4,
         name:'ديوان قاضي القضاة',
         longitude:31.91794221622228,
         latitude: 35.214485824590795,
@@ -45,7 +45,7 @@ export const AllLocations =[
     },
 
     {
-        id:0,
+        id:5,
         name:'ديوان قاضي القضاة',
         longitude:31.91794221622228,
         latitude: 35.214485824590795,
@@ -54,7 +54,7 @@ export const AllLocations =[
     },
 
     {
-        id:0,
+        id:6,
         name:'ديوان قاضي القضاة',
         longitude:31.91794221622228,
         latitude: 35.214485824590795,
@@ -63,7 +63,7 @@ export const AllLocations =[
     },
 
     {
-        id:0,
+        id:7,
         name:'ديوان قاضي القضاة',
         longitude:31.91794221622228,
         latitude: 35.214485824590795,
@@ -72,7 +72,7 @@ export const AllLocations =[
     },
 
     {
-        id:0,
+        id:8,
         name:'ديوان قاضي القضاة',
         longitude:31.91794221622228,
         latitude: 35.214485824590795,
@@ -82,7 +82,7 @@ export const AllLocations =[
 
 
     {
-        id:0,
+        id:9,
         name:'ديوان قاضي القضاة',
         longitude:31.91794221622228,
         latitude: 35.214485824590795,
@@ -91,7 +91,7 @@ export const AllLocations =[
     },
 
     {
-        id:0,
+        id:10,
         name:'ديوان قاضي القضاة',
         longitude:31.91794221622228,
         latitude: 35.214485824590795,
@@ -100,7 +100,7 @@ export const AllLocations =[
     },
 
     {
-        id:0,
+        id:11,
         name:'ديوان قاضي القضاة',
         longitude:31.91794221622228,
         latitude: 35.214485824590795,
@@ -109,7 +109,7 @@ export const AllLocations =[
     },
 
     {
-        id:0,
+        id:12,
         name:'ديوان قاضي القضاة',
         longitude:31.91794221622228,
         latitude: 35.214485824590795,
@@ -117,7 +117,7 @@ export const AllLocations =[
         
     },
     {
-        id:0,
+        id:13,
         name:'ديوان قاضي القضاة',
         longitude:31.91794221622228,
         latitude: 35.214485824590795,
@@ -125,7 +125,7 @@ export const AllLocations =[
         
     },
     {
-        id:0,
+        id:14,
         name:'ديوان قاضي القضاة',
         longitude:31.91794221622228,
         latitude: 35.214485824590795,
@@ -133,7 +133,7 @@ export const AllLocations =[
         
     },
     {
-        id:0,
+        id:15,
         name:'ديوان قاضي القضاة',
         longitude:31.91794221622228,
         latitude: 35.214485824590795,
@@ -142,7 +142,7 @@ export const AllLocations =[
     },
 
     {
-        id:0,
+        id:16,
         name:'ديوان قاضي القضاة',
         longitude:31.91794221622228,
         latitude: 35.214485824590795,
