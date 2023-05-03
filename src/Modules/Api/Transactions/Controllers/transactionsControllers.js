@@ -9,7 +9,7 @@ import {
 
 const getAllTransactionsController = async (req, res, next) => {
   try {
-    const Transactions = await getAllTransactions();
+    const Transactions = await getAllTransactions(req.user.id);
     res.send(Transactions);
   } catch (error) {
     next(createError(error));

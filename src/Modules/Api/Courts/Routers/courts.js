@@ -15,7 +15,7 @@ router.post("", authenticateToken,createCourtController);
 router.get("/:id",authenticateToken, getCourtController);
 router.put("/:id", authenticateToken,updateCourtController);
 router.delete("/:id",authenticateToken, deleteCourtController);
-
+ 
 
 
 

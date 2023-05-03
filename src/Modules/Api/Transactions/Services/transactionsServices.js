@@ -1,8 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-const getAllTransactions = async () => {
+const getAllTransactions = async (userId) => {
   return await prisma.transaction.findMany({
+    where: { authorId: Number(userId) },
     orderBy: [
       {
         id: "asc",

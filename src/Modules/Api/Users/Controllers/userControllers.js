@@ -5,10 +5,10 @@ import {
   getAllUsers,
   getUser,
   updateUser,
+  updateUserProfileImage,
   login,
 } from "../Services/userServices.js";
 import { logout } from "../../../Middleware/Auth/JWT.js";
-import { profileImagesPath } from "../../../../Utils/Constants/constant.js";
 const loginController = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -39,16 +39,14 @@ const getAllUsersController = async (req, res, next) => {
 const createUserController = async (req, res, next) => {
   try {
     const user = JSON.parse(req.body.data);
-    const { profile } = user;
-    delete user.profile;
+    const profileImage = req.files.find(file =>file.fieldname=="profileImage" );
+    const idImage = req.files.find(file =>file.fieldname=="idImage" );
 
-    const image = req.file;
-    let newUser = null;
-    if (image) {
-      newUser = await createUser(user, profile, image);
-    } else {
-      newUser = await createUser(user, profile);
+    if(!idImage){
+      throw "u must upload id image"
     }
+
+    let newUser = await createUser(user, idImage,profileImage);
     res.send(newUser);
   } catch (error) {
     next(createError(error));
@@ -66,9 +64,23 @@ const getUserController = async (req, res, next) => {
 };
 const updateUserController = async (req, res, next) => {
   try {
-    const data = req.body;
-    const user = await updateUser(data);
-    res.send(user);
+    const user = req.body;
+    let newUser = await updateUser(user);
+    res.send(newUser);
+  } catch (error) {
+    next(createError(error));
+  }
+};
+
+const updateUserProfileImageController = async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    const profileImage = req.files?.find(file =>file.fieldname=="profileImage" );
+    if(!profileImage){
+      throw "no image !"
+    }
+    let newUser = await updateUserProfileImage(id,profileImage);
+    res.send(newUser);
   } catch (error) {
     next(createError(error));
   }
@@ -92,7 +104,9 @@ export {
   createUserController,
   getUserController,
   updateUserController,
+  updateUserProfileImageController,
   deleteUserController,
   loginController,
   logoutController,
+  
 };

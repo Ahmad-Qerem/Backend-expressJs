@@ -7,11 +7,12 @@ const generateAccessToken = (user) => {
     expiresIn: "1d",
   });
 };
+const invalidTokens = [];
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-  if (token == null) {
+  if (token == null || invalidTokens.includes(token)) {
     throw createError.Unauthorized();
   }
   const user = jwt.verify(token, process.env.TOKEN_SECRET, (error, user) => {
@@ -24,31 +25,12 @@ const authenticateToken = (req, res, next) => {
   req["user"] = user;
   next();
 };
-
 const logout = (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-  if (token == null) {
-    throw createError.Unauthorized();
-  }
-  const user = jwt.verify(token, process.env.TOKEN_SECRET, (error, user) => {
-    if (error) return;
-    return user;
-  });
-  console.log("decode:", user);
   try {
-    jwt.sign(
-      { role: user.role, id: user.id },
-      ' ',
-      { expiresIn: '1s' },
-      (logout, err) => {
-        if (logout) {
-          res.send({ message: "You have been Logged Out" });
-        } else {
-          res.send({ message: "Error" });
-        }
-      }
-    );
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+    invalidTokens.push(token);
+    res.send("Logged out");
   } catch (error) {
     next(createError(error));
   }
