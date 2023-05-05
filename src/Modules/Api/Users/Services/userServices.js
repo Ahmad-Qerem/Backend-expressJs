@@ -39,6 +39,8 @@ const publicSelectedFields = {
   id_number: false,
   role: true,
   password: false,
+  latitude: true,
+  longitude: true,
   profile: {
     select: { ...profileSelectedFields, IDImage: false },
   },
@@ -60,7 +62,7 @@ const createUser = async (userData, idImage, profileImage) => {
     },
     include: {
       profile: {
-        select: privateUserSelectedFields,
+        select:profileSelectedFields,
       },
     },
   });
