@@ -16,6 +16,7 @@ app.use("/courts", courtsRouter);
 app.use("/posts", postsRouter);
 
 app.use("/images/profile", express.static('data/images/userProfileImages'));
+app.use("/images/idImage", express.static('data/images/userIDImages'));
 
 
 app.use(async (error, req, res, next) => {

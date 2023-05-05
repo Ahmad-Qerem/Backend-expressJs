@@ -9,9 +9,13 @@ import {
   deleteUserController,
   loginController,
   logoutController,
+  getClosestLawyersController,
 } from "../Controllers/userControllers.js";
 import { validationResultMiddleware } from "../../../Middleware/Validators/validationResult.js";
-import { loginValidator, registerValidator } from "../../../Middleware/Validators/userValidators.js";
+import {
+  loginValidator,
+  registerValidator,
+} from "../../../Middleware/Validators/userValidators.js";
 import { multerMiddleware } from "../../../Middleware/Utils/multer.js";
 const router = express.Router();
 
@@ -21,14 +25,20 @@ router.post(
   validationResultMiddleware,
   loginController
 );
-router.post("/register", multerMiddleware,createUserController);
+router.post("/register", multerMiddleware, createUserController);
 
-router.post("/logout",authenticateToken, logoutController);
+router.post("/logout", authenticateToken, logoutController);
 router.get("", authenticateToken, getAllUsersController);
-router.post("", authenticateToken, createUserController);
+router.post("", multerMiddleware, authenticateToken, createUserController);
+router.get("/closeLawyers", authenticateToken, getClosestLawyersController);
 router.get("/:id", authenticateToken, getUserController);
 router.put("/:id", authenticateToken, updateUserController);
-router.put("/profileImage/:id",authenticateToken,multerMiddleware, updateUserProfileImageController);
+router.put(
+  "/profileImage/:id",
+  authenticateToken,
+  multerMiddleware,
+  updateUserProfileImageController
+);
 
 router.delete("/:id", authenticateToken, deleteUserController);
 

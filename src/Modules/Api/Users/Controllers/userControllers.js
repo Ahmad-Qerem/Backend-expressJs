@@ -7,8 +7,10 @@ import {
   updateUser,
   updateUserProfileImage,
   login,
+  getClosestLawyers,
 } from "../Services/userServices.js";
 import { logout } from "../../../Middleware/Auth/JWT.js";
+import { body } from "express-validator";
 const loginController = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -29,7 +31,9 @@ const logoutController = async (req, res, next) => {
 };
 const getAllUsersController = async (req, res, next) => {
   try {
-    const users = await getAllUsers();
+    const filters = req.query;
+    const userId = req.user.id;
+    const users = await getAllUsers(filters, userId);
     res.send(users);
   } catch (error) {
     next(createError(error));
@@ -39,14 +43,16 @@ const getAllUsersController = async (req, res, next) => {
 const createUserController = async (req, res, next) => {
   try {
     const user = JSON.parse(req.body.data);
-    const profileImage = req.files.find(file =>file.fieldname=="profileImage" );
-    const idImage = req.files.find(file =>file.fieldname=="idImage" );
+    const profileImage = req.files.find(
+      (file) => file.fieldname == "profileImage"
+    );
+    const idImage = req.files.find((file) => file.fieldname == "idImage");
 
-    if(!idImage){
-      throw "u must upload id image"
+    if (!idImage) {
+      throw "u must upload id image";
     }
 
-    let newUser = await createUser(user, idImage,profileImage);
+    let newUser = await createUser(user, idImage, profileImage);
     res.send(newUser);
   } catch (error) {
     next(createError(error));
@@ -75,12 +81,14 @@ const updateUserController = async (req, res, next) => {
 const updateUserProfileImageController = async (req, res, next) => {
   try {
     const id = Number(req.params.id);
-    const profileImage = req.files?.find(file =>file.fieldname=="profileImage" );
-    if(!profileImage){
-      throw "no image !"
+    const profileImage = req.files?.find(
+      (file) => file.fieldname == "profileImage"
+    );
+    if (!profileImage) {
+      throw "no image !";
     }
-    let newUser = await updateUserProfileImage(id,profileImage);
-    res.send(newUser);
+    let updatedImage = await updateUserProfileImage(id, profileImage);
+    res.send({ updatedImage });
   } catch (error) {
     next(createError(error));
   }
@@ -99,6 +107,12 @@ const deleteUserController = async (req, res, next) => {
   }
 };
 
+const getClosestLawyersController = async (req, res, next) => {
+  const userId = req.user.id;
+  const currentLocation = req.body.location;
+  const data = await getClosestLawyers(currentLocation, userId);
+  res.send(data);
+};
 export {
   getAllUsersController,
   createUserController,
@@ -108,5 +122,5 @@ export {
   deleteUserController,
   loginController,
   logoutController,
-  
+  getClosestLawyersController,
 };
