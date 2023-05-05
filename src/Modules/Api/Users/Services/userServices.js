@@ -27,6 +27,8 @@ const privateUserSelectedFields = {
   id_number: true,
   role: true,
   password: false,
+  latitude: true,
+  longitude: true,
   profile: {
     select: profileSelectedFields,
   },
