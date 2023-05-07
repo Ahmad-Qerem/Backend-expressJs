@@ -62,7 +62,7 @@ const createUser = async (userData, idImage, profileImage) => {
     },
     include: {
       profile: {
-        select:profileSelectedFields,
+        select: profileSelectedFields,
       },
     },
   });
@@ -83,19 +83,27 @@ const createUser = async (userData, idImage, profileImage) => {
   return user;
 };
 
-const updateUser = async (updatedData) => {
-  let { profile } = userData;
-  delete userData.profile;
+const updateUser = async (data, userId) => {
+  let { profile } = data;
+  if (profile?.dateOfBirth) {
+    profile.dateOfBirth = new Date(profile.dateOfBirth);
+  }
+  delete data.profile;
   return await prisma.user.update({
     where: {
-      id: updatedData.id,
+      id: Number(userId),
     },
     data: {
-      ...updatedData,
+      ...data,
       profile: {
-        connect: {
+        update: {
           ...profile,
         },
+      },
+    },
+    include: {
+      profile: {
+        select: profileSelectedFields,
       },
     },
   });

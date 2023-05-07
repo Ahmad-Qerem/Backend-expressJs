@@ -70,8 +70,13 @@ const getUserController = async (req, res, next) => {
 };
 const updateUserController = async (req, res, next) => {
   try {
-    const user = req.body;
-    let newUser = await updateUser(user);
+    const updatedData = req.body;
+    const userId = req.params.id;
+
+    console.log("updatedData:",updatedData);
+    console.log("userId:",userId);
+
+    let newUser = await updateUser(updatedData,userId);
     res.send(newUser);
   } catch (error) {
     next(createError(error));
