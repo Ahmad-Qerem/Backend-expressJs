@@ -29,8 +29,8 @@ router.post("/register", multerMiddleware, createUserController);
 
 router.post("/logout", authenticateToken, logoutController);
 router.get("", authenticateToken, getAllUsersController);
+router.post("/closeLawyers", authenticateToken, getClosestLawyersController);
 router.post("", multerMiddleware, authenticateToken, createUserController);
-router.get("/closeLawyers", authenticateToken, getClosestLawyersController);
 router.get("/:id", authenticateToken, getUserController);
 router.put("/:id", authenticateToken, updateUserController);
 router.put(

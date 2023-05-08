@@ -115,6 +115,7 @@ const deleteUserController = async (req, res, next) => {
 const getClosestLawyersController = async (req, res, next) => {
   const userId = req.user.id;
   const currentLocation = req.body.location;
+  console.log("currentLocation:",currentLocation);
   const data = await getClosestLawyers(currentLocation, userId);
   res.send(data);
 };
