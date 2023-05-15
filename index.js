@@ -5,10 +5,11 @@ import transactionsRouts from "./src/Modules/Api/Transactions/Routers/transactio
 import enumsLanguagesRouts from "./src/Modules/Api/Enums/Languages/Routers/enums.js";
 import courtsRouter from "./src/Modules/Api/Courts/Routers/courts.js";
 import postsRouter from "./src/Modules/Api/Posts/Routers/posts.js"
-
+import bookingsRouts from "./src/Modules/Api/Booking/Routers/booking.js"
 dotenv.config();
 const app = express();
 app.use(express.json());
+app.use("/users/bookings", bookingsRouts);
 app.use("/users", userRouts);
 app.use("/transactions", transactionsRouts);
 app.use("/enums", enumsLanguagesRouts);

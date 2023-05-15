@@ -19,6 +19,19 @@ model User {
   transactions Transaction[]
   posts        Post[]
   Comment      Comment[]
+  Booking      Booking[]
+}
+
+model Booking {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  lawyerId    Int
+  startTime   DateTime 
+  endTime     DateTime 
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  User        User     @relation(fields: [userId], references: [id])
 }
 
 model Profile {
@@ -40,11 +53,11 @@ model Profile {
 }
 
 model Transaction {
-  id          Int       @id @default(autoincrement())
+  id          Int              @id @default(autoincrement())
   title       String
-  created     DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  created     DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  author      User             @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId    Int
   description String
   type        TransactionsType
@@ -90,11 +103,13 @@ model Court {
   latitude    Float
   longitude   Float
 }
+
 enum TransactionsType {
   TYPE1
   TYPE2
   TYPE3
 }
+
 enum Role {
   BASIC
   ADMIN
