@@ -23,12 +23,10 @@ const getBookingByID = async (userID, bookingId) => {
   });
 };
 const createBooking = async (book, userId) => {
+  
   return await prisma.booking.create({
     data: {
-      startTime:new Date(book.startTime),
-      endTime: new Date(book.endTime),
-      description: book.description,
-      lawyerId: Number(book.lawyerId),
+      ...book,
       User: {
         connect: {
           id: userId,
