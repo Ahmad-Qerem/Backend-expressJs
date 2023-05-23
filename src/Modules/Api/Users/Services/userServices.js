@@ -152,8 +152,13 @@ const getAllUsers = async (searchFilter, userId, role = "BASIC") => {
     where: {
       AND: [{ role: { equals: role } }],
       profile: {
-        OR: [{ name: { contains: searchFilter, mode: "insensitive" } }],
+        OR: [
+          { name: { contains: searchFilter, mode: "insensitive" } },
+          { city: { contains: searchFilter, mode: "insensitive" } }
+        
+        ],
       },
+      // OR:[{email:{ contains: searchFilter, mode: "insensitive" }}],
 
       id: { not: userId },
     },
