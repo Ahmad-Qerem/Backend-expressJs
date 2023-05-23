@@ -149,14 +149,14 @@ const login = async (email, password) => {
 const getAllUsers = async (searchFilter, userId) => {
   return await prisma.user.findMany({
     orderBy: [{ id: "asc" }],
-    select: privateUserSelectedFields,
     where: {
-      OR: [
-        { email: { contains: searchFilter,mode: 'insensitive' } },
-        { id_number: { contains: Number(searchFilter),mode: 'insensitive' }, NOT: { field2: null } },
-        // Add additional fields to search here
-      ],
+      profile: {
+        OR: [{ name: { contains: searchFilter, mode: "insensitive" } }],
+      },
+
+      id: { not: userId },
     },
+    select: publicSelectedFields,
   });
 };
 
@@ -194,12 +194,12 @@ const getUser = async (id) => {
     where: {
       id: +id,
     },
-    include:{
-      Booking:{
-        where:{
-          lawyerId:id
-        }
-      }
+    include: {
+      Booking: {
+        where: {
+          lawyerId: id,
+        },
+      },
     },
     select: privateUserSelectedFields,
   });
