@@ -6,6 +6,9 @@ const getAllPosts = async (userId) => {
     where: {
       authorId: userId,
     },
+    include: {
+      comments: true,
+    },
     orderBy: [
       {
         id: "asc",
@@ -17,8 +20,11 @@ const getAllPosts = async (userId) => {
 const getPost = async (userId, postId) => {
   return await prisma.post.findMany({
     where: {
-      authorId:Number(userId),
+      authorId: Number(userId),
       id: Number(postId),
+    },
+    include: {
+      comments: true,
     },
   });
 };
@@ -32,6 +38,9 @@ const updatePost = async (updatedData) => {
   return await prisma.post.update({
     where: {
       id: updatedData.id,
+    },
+    include: {
+      comments: true,
     },
     data: updatedData,
   });

@@ -1,8 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-const getAllUserBookings = async (userID) => {
-  return await prisma.booking.findMany({
+const getAllUserComments = async (userID) => {
+  return await prisma.comment.findMany({
     where: {
       userId: Number(userID),
     },
@@ -14,7 +14,7 @@ const getAllUserBookings = async (userID) => {
   });
 };
 
-const getBookingByID = async (userID, bookingId) => {
+const getCommentByID = async (userID, bookingId) => {
   return await prisma.booking.findMany({
     where: {
       userId: Number(userID),
@@ -22,8 +22,8 @@ const getBookingByID = async (userID, bookingId) => {
     },
   });
 };
-const createBooking = async (book, userId) => {
-
+const createComment = async (book, userId) => {
+  
   return await prisma.booking.create({
     data: {
       ...book,
@@ -36,7 +36,7 @@ const createBooking = async (book, userId) => {
   });
 };
 
-const updateBooking = async (updatedData) => {
+const updateComment = async (updatedData) => {
   return await prisma.booking.update({
     where: {
       id: updatedData.id,
@@ -45,18 +45,17 @@ const updateBooking = async (updatedData) => {
   });
 };
 
-const deleteBooking = async (ToDeleteId) => {
-  return await prisma.booking.delete({
+const deleteComment = async (ToDeleteId) => {
+  return await prisma.post.delete({
     where: {
       id: ToDeleteId,
     },
   });
 };
 export {
-  getAllUserBookings,
-  createBooking,
-  getBookingByID,
-  updateBooking,
-  deleteBooking,
+  getAllUserComments,
+  createComment,
+  getCommentByID,
+  updateComment,
+  deleteComment,
 };
- 

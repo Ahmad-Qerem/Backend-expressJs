@@ -146,13 +146,16 @@ const login = async (email, password) => {
   throw "user not found";
 };
 
-const getAllUsers = async (filter, userId) => {
+const getAllUsers = async (searchFilter, userId) => {
   return await prisma.user.findMany({
     orderBy: [{ id: "asc" }],
     select: privateUserSelectedFields,
     where: {
-      role: filter.role,
-      NOT: { id: Number(userId) },
+      OR: [
+        { email: { contains: searchFilter,mode: 'insensitive' } },
+        { id_number: { contains: Number(searchFilter),mode: 'insensitive' }, NOT: { field2: null } },
+        // Add additional fields to search here
+      ],
     },
   });
 };
@@ -190,6 +193,13 @@ const getUser = async (id) => {
   const user = await prisma.user.findUnique({
     where: {
       id: +id,
+    },
+    include:{
+      Booking:{
+        where:{
+          lawyerId:id
+        }
+      }
     },
     select: privateUserSelectedFields,
   });

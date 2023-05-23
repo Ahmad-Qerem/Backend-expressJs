@@ -6,9 +6,12 @@ import enumsLanguagesRouts from "./src/Modules/Api/Enums/Languages/Routers/enums
 import courtsRouter from "./src/Modules/Api/Courts/Routers/courts.js";
 import postsRouter from "./src/Modules/Api/Posts/Routers/posts.js"
 import bookingsRouts from "./src/Modules/Api/Booking/Routers/booking.js"
+import cors from "cors"
 dotenv.config();
 const app = express();
 app.use(express.json());
+app.use(cors());
+
 app.use("/users/bookings", bookingsRouts);
 app.use("/users", userRouts);
 app.use("/transactions", transactionsRouts);
