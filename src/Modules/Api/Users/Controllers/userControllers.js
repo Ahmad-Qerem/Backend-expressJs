@@ -32,8 +32,10 @@ const logoutController = async (req, res, next) => {
 const getAllUsersController = async (req, res, next) => {
   try {
     const search = req.query.search;
+    const searchRole = req.query.role;
+
     const userId = req.user.id;
-    const users = await getAllUsers(search, userId);
+    const users = await getAllUsers(search, userId,searchRole);
     res.send(users);
   } catch (error) {
     next(createError(error));

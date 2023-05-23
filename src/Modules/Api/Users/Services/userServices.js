@@ -146,10 +146,11 @@ const login = async (email, password) => {
   throw "user not found";
 };
 
-const getAllUsers = async (searchFilter, userId) => {
+const getAllUsers = async (searchFilter, userId, role = "BASIC") => {
   return await prisma.user.findMany({
     orderBy: [{ id: "asc" }],
     where: {
+      AND: [{ role: { equals: role } }],
       profile: {
         OR: [{ name: { contains: searchFilter, mode: "insensitive" } }],
       },
