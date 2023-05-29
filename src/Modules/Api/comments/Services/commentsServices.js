@@ -4,40 +4,53 @@ const prisma = new PrismaClient();
 const getAllUserComments = async (userID) => {
   return await prisma.comment.findMany({
     where: {
-      userId: Number(userID),
+      authorId: Number(userID),
     },
     orderBy: [
       {
-        startTime: "asc",
+        createdAt: "desc",
       },
     ],
   });
 };
 
-const getCommentByID = async (userID, bookingId) => {
-  return await prisma.booking.findMany({
+const getCommentByID = async (userID, commentId) => {
+  return await prisma.comment.findMany({
     where: {
-      userId: Number(userID),
-      id: Number(bookingId),
-    },
-  });
-};
-const createComment = async (book, userId) => {
-  
-  return await prisma.booking.create({
-    data: {
-      ...book,
-      User: {
-        connect: {
-          id: userId,
-        },
-      },
+      authorId: Number(userID),
+      id: Number(commentId),
     },
   });
 };
 
-const updateComment = async (updatedData) => {
-  return await prisma.booking.update({
+const createComment = async (comment, userId) => {
+  console.log("comment",comment);
+  return await prisma.comment.create({
+    data: {
+      data: comment.data,
+      author: {
+        connect: { id: userId }
+      },
+      post: {
+        connect: { id: comment.postId }
+      }
+    },
+  });
+};
+
+
+const updateComment = async (updatedData, userId) => {
+  const comment = await prisma.comment.findFirst({
+    where: {
+      AND: [{ id: updatedData.id }, { authorId: userId }],
+    },
+  });
+
+  if (!comment) {
+    throw new Error("Comment not found or you don't have permission to update it.");
+  }
+
+  return await prisma.comment.update({
     where: {
       id: updatedData.id,
     },
@@ -45,13 +58,31 @@ const updateComment = async (updatedData) => {
   });
 };
 
-const deleteComment = async (ToDeleteId) => {
-  return await prisma.post.delete({
+
+const deleteComment = async (ToDeleteId, userId, isAdmin) => {
+  const comment = await prisma.comment.findUnique({
     where: {
       id: ToDeleteId,
     },
   });
+
+  if (!comment) {
+    return "عذرًا، هذا التعليق غير متوفر";
+  }
+
+  if (!isAdmin && comment.authorId !== userId) {
+    return "عذرًا، ليس لديك صلاحية حذف هذا التعليق";
+  }
+
+  await prisma.comment.delete({
+    where: {
+      id: ToDeleteId,
+    },
+  });
+
+  return "تم حذف التعليق بنجاح";
 };
+
 export {
   getAllUserComments,
   createComment,

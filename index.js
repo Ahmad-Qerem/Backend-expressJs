@@ -6,6 +6,8 @@ import enumsLanguagesRouts from "./src/Modules/Api/Enums/Languages/Routers/enums
 import courtsRouter from "./src/Modules/Api/Courts/Routers/courts.js";
 import postsRouter from "./src/Modules/Api/Posts/Routers/posts.js"
 import bookingsRouts from "./src/Modules/Api/Booking/Routers/booking.js"
+import commentsRouter from "./src/Modules/Api/comments/Routers/comments.js"
+
 import cors from "cors"
 dotenv.config();
 const app = express();
@@ -18,6 +20,7 @@ app.use("/transactions", transactionsRouts);
 app.use("/enums", enumsLanguagesRouts);
 app.use("/courts", courtsRouter);
 app.use("/posts", postsRouter);
+app.use("/comments", commentsRouter);
 
 app.use("/images/profile", express.static('data/images/userProfileImages'));
 app.use("/images/idImage", express.static('data/images/userIDImages'));

@@ -10,6 +10,7 @@ import {
 const getAllUserCommentsController = async (req, res, next) => {
   try {
     const userId = req.user.id;
+
     const Comments = await getAllUserComments(userId);
     res.send(Comments);
   } catch (error) {
@@ -21,8 +22,8 @@ const createCommentController = async (req, res, next) => {
   try {
     const data = req.body;
     const userId = req.user.id;
-    
-    const Comment = await createComment(data,userId);
+
+    const Comment = await createComment(data, userId);
     res.send(Comment);
   } catch (error) {
     next(createError(error));
@@ -41,11 +42,9 @@ const getCommentByIDController = async (req, res, next) => {
 };
 const updateCommentController = async (req, res, next) => {
   try {
-    const data = {
-      ...req.body,
-      id: parseInt(req.params.id),
-    };
-    const Comment = await updateComment(data);
+    const data = req.body;
+
+    const Comment = await updateComment(data, req.user.id);
     res.send(Comment);
   } catch (error) {
     next(createError(error));
@@ -55,10 +54,14 @@ const updateCommentController = async (req, res, next) => {
 const deleteCommentController = async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
-    const Comment = await deleteComment(id);
+    const Comment = await deleteComment(
+      id,
+      req.user.id,
+      req.user.role == "ADMIN" ? true : false
+    );
     res.send({
       success: true,
-      message: "comment deleted ",
+      message: Comment,
     });
   } catch (error) {
     next(createError(error));

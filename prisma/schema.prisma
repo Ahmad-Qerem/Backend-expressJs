@@ -106,12 +106,12 @@ model Post {
 }
 
 model Comment {
-  id        Int      @id
+  id        Int      @id @default(autoincrement())
   data      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  authorId  Int      @unique
+  authorId  Int      
   post      Post[]
 }
 
