@@ -36,14 +36,26 @@ const privateUserSelectedFields = {
 const publicSelectedFields = {
   id: true,
   email: true,
-  id_number: false,
+  id_number: true,
   role: true,
   password: false,
   latitude: true,
   longitude: true,
   profile: {
-    select: { ...profileSelectedFields, IDImage: false },
+    select: profileSelectedFields ,
   },
+  Booking:{
+    select:{
+      id:true,
+      lawyerId: true,
+      userId: true,
+      date:true,
+      startTime:true,
+      endTime:true,
+      description:true,
+      createdAt:true
+    }
+  }
 };
 const createUser = async (userData, idImage, profileImage) => {
   let { profile } = userData;
@@ -146,51 +158,69 @@ const login = async (email, password) => {
   throw "user not found";
 };
 
-const getAllUsers = async (searchFilter, userId, role = "BASIC") => {
+const getAllUsers = async (searchFilter = null, userId, role = null) => {
+  let whereFilters = {
+    id: { not: userId },
+  };
+  if (searchFilter && role) {
+    whereFilters.AND = [{ role: { equals: role } }];
+    whereFilters.profile = {
+      OR: [
+        { name: { contains: searchFilter, mode: "insensitive" } },
+        { city: { contains: searchFilter, mode: "insensitive" } },
+      ],
+    };
+  } else if (searchFilter) {
+    whereFilters.profile = {
+      OR: [
+        { name: { contains: searchFilter, mode: "insensitive" } },
+        { city: { contains: searchFilter, mode: "insensitive" } },
+      ],
+    };
+  } else if (role) {
+    whereFilters.AND = [{ role: { equals: role } }];
+  }
+
   return await prisma.user.findMany({
     orderBy: [{ id: "asc" }],
-    where: {
-      AND: [{ role: { equals: role } }],
-      profile: {
-        OR: [
-          { name: { contains: searchFilter, mode: "insensitive" } },
-          { city: { contains: searchFilter, mode: "insensitive" } }
-        
-        ],
-      },
-      // OR:[{email:{ contains: searchFilter, mode: "insensitive" }}],
-
-      id: { not: userId },
-    },
+    where: whereFilters,
     select: publicSelectedFields,
   });
 };
 
 const getClosestLawyers = async (userLocation, userId) => {
-  await prisma.user.update({
-    where: {
-      id: Number(userId),
-    },
-    data: {
-      latitude: userLocation.latitude,
-      longitude: userLocation.longitude,
-    },
-  });
+  // await prisma.user.update({
+  //   where: {
+  //     id: Number(userId),
+  //   },
+  //   data: {
+  //     latitude: userLocation.latitude,
+  //     longitude: userLocation.longitude,
+  //   },
+  // });
   const allLawyers = await prisma.user.findMany({
     select: publicSelectedFields,
     where: { role: "LAWYER", NOT: { id: userId } },
   });
 
   allLawyers.sort((user1, user2) => {
+
     const distance1 = haversine(userLocation, {
-      lat: user1.latitude,
-      lng: user1.longitude,
+      latitude: user1.latitude,
+      longitude: user1.longitude,
     });
     const distance2 = haversine(userLocation, {
-      lat: user2.latitude,
-      lng: user2.longitude,
+      latitude: user2.latitude,
+      longitude: user2.longitude,
     });
-    return distance1 - distance2;
+
+    if (isNaN(distance1) && !isNaN(distance2)) {
+      return 1; // distance1 comes distance1fter distance2
+    } else if (!isNaN(distance1) && isNaN(distance2)) {
+      return -1; // distance1 comes distance2efore distance2
+    } else {
+      return distance1 - distance2; // compare numeric values
+    }
   });
   return allLawyers;
 };
@@ -200,14 +230,8 @@ const getUser = async (id) => {
     where: {
       id: +id,
     },
-    include: {
-      Booking: {
-        where: {
-          lawyerId: id,
-        },
-      },
-    },
-    select: privateUserSelectedFields,
+
+    select: publicSelectedFields,
   });
   return user;
 };

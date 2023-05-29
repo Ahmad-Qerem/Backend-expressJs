@@ -32,8 +32,8 @@ const createBookingController = async (req, res, next) => {
 const getBookingByIDController = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const userId = req.user.id;
-    const book = await getBookingByID(userId, id);
+    // const userId = req.user.id;
+    const book = await getBookingByID( id);
     res.send(book);
   } catch (error) {
     next(createError(error));

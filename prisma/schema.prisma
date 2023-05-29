@@ -1,6 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
-  previewFeatures = ["fullTextSearch","fullTextIndex"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -21,6 +21,7 @@ model User {
   posts        Post[]
   Comment      Comment[]
   Booking      Booking[]
+  News         News[]
 }
 
 model Booking {
@@ -28,12 +29,12 @@ model Booking {
   userId      Int
   lawyerId    Int
   date        String
-  startTime   String 
-  endTime     String 
+  startTime   String
+  endTime     String
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  User        User     @relation(fields: [userId], references: [id])
+  User        User     @relation(fields: [lawyerId], references: [id])
 }
 
 model Profile {
@@ -55,16 +56,33 @@ model Profile {
 }
 
 model Transaction {
-  id          Int              @id @default(autoincrement())
+  id          Int                @id @default(autoincrement())
   title       String
-  created     DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
-  author      User             @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  created     DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  author      User               @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId    Int
   description String
+  status      TransactionsStatus @default(WAITTING)
   type        TransactionsType
   data        Json
   document    Document?
+}
+
+model News {
+  id       Int      @id @default(autoincrement())
+  title    String
+  image    String
+  created  DateTime @default(now())
+  author   User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId Int
+}
+
+model LegalCircular {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  title       String
+  description String
 }
 
 model Document {
@@ -110,6 +128,12 @@ enum TransactionsType {
   TYPE1
   TYPE2
   TYPE3
+}
+
+enum TransactionsStatus {
+  REJECTED
+  APPROVED
+  WAITTING
 }
 
 enum Role {

@@ -11,7 +11,7 @@ const getAllPosts = async (userId) => {
     },
     orderBy: [
       {
-        id: "asc",
+        created: "desc",
       },
     ],
   });

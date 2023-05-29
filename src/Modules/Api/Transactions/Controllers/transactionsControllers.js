@@ -19,7 +19,7 @@ const getAllTransactionsController = async (req, res, next) => {
 const createTransactionController = async (req, res, next) => {
   try {
     const data = req.body;
-    const newTransactions = await createTransaction(data,req.user);
+    const newTransactions = await createTransaction(data,req.user.id);
     res.send(newTransactions);
   } catch (error) {
     next(createError(error));

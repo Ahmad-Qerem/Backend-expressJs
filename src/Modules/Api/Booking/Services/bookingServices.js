@@ -14,24 +14,32 @@ const getAllUserBookings = async (userID) => {
   });
 };
 
-const getBookingByID = async (userID, bookingId) => {
+const getBookingByID = async (userID) => {
   return await prisma.booking.findMany({
     where: {
       userId: Number(userID),
-      id: Number(bookingId),
     },
   });
 };
 const createBooking = async (book, userId) => {
+  book.userId =userId;
+  const user = await prisma.user.findUnique({
+    where: {
+      id: book.lawyerId,
+    },
+    select: {
+      role: true,
+    },
+  });
+
+  if (user.role !== 'LAWYER') {
+    throw new Error('User is not a lawyer');
+  }
 
   return await prisma.booking.create({
+
     data: {
       ...book,
-      User: {
-        connect: {
-          id: userId,
-        },
-      },
     },
   });
 };
