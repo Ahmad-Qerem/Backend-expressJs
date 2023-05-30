@@ -7,6 +7,7 @@ import courtsRouter from "./src/Modules/Api/Courts/Routers/courts.js";
 import postsRouter from "./src/Modules/Api/Posts/Routers/posts.js"
 import bookingsRouts from "./src/Modules/Api/Booking/Routers/booking.js"
 import commentsRouter from "./src/Modules/Api/comments/Routers/comments.js"
+import newsRouter from "./src/Modules/Api/News/Routers/news.js"
 
 import cors from "cors"
 dotenv.config();
@@ -21,9 +22,11 @@ app.use("/enums", enumsLanguagesRouts);
 app.use("/courts", courtsRouter);
 app.use("/posts", postsRouter);
 app.use("/comments", commentsRouter);
+app.use("/news", newsRouter);
 
 app.use("/images/profile", express.static('data/images/userProfileImages'));
 app.use("/images/idImage", express.static('data/images/userIDImages'));
+app.use("/images/news", express.static('data/images/news'));
 
 
 app.use(async (error, req, res, next) => {

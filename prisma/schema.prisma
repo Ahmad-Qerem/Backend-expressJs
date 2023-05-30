@@ -72,7 +72,7 @@ model Transaction {
 model News {
   id       Int      @id @default(autoincrement())
   title    String
-  image    String
+  image    String?
   created  DateTime @default(now())
   author   User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId Int

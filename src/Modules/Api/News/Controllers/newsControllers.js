@@ -5,7 +5,7 @@ import {
   getNew,
   updateNew,
   deleteNew,
-} from "../Services/NewsServices.js";
+} from "../Services/newsServices.js";
 
 const getAllNewsController = async (req, res, next) => {
   try {
@@ -18,9 +18,14 @@ const getAllNewsController = async (req, res, next) => {
 
 const createNewController = async (req, res, next) => {
   try {
-    const data = req.body;
+    const data = JSON.parse(req.body.data);
+
+    const newsImage = req.files.find(
+      (file) => file.fieldname == "newsImage"
+    );
+
     const userId = req.user.id;
-    const newNews = await createNew(data,userId);
+    const newNews = await createNew(data,newsImage,userId);
     res.send(newNews);
   } catch (error) {
     next(createError(error));

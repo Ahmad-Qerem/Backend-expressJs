@@ -3,11 +3,12 @@ import CryptoJS from "crypto-js";
 import path from "path";
 const Storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    console.log("file::", file);
     if (file.fieldname === "idImage") {
       cb(null, "./data/images/userIDImages");
     } else if (file.fieldname === "profileImage") {
       cb(null, "./data/images/userProfileImages");
+    } else if (file.fieldname === "newsImage") {
+      cb(null, "./data/images/news");
     }
   },
   filename: (req, file, callBack) => {
