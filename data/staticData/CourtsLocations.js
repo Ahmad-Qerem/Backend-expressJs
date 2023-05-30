@@ -92,7 +92,6 @@ export const AllLocations =[
         address:"قلقيلية",
         phone:"092949257"
     },
-    , 
     {
         id:12,
         name:'محكمة الصلح',
@@ -255,7 +254,6 @@ export const AllLocations =[
         address:"بالقرب من بلدية حلحول",
         phone:"022292333",
     },
-    , 
     {
         id:31,
         name:'محكمة الخليل الجنوبية - الظاهريه',
