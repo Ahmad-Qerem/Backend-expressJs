@@ -5,6 +5,7 @@ import {
   getAllTransactions,
   getTransaction,
   updateTransaction,
+  getTransactionByUserId
 } from "../Services/transactionsServices.js";
 
 const getAllTransactionsController = async (req, res, next) => {
@@ -30,6 +31,15 @@ const getTransactionController = async (req, res, next) => {
   try {
     const id = req.params.id;
     const transaction = await getTransaction(id);
+    res.send(transaction);
+  } catch (error) {
+    next(createError(error));
+  }
+};
+const getTransactionByUserIdController = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const transaction = await getTransactionByUserId(id);
     res.send(transaction);
   } catch (error) {
     next(createError(error));
@@ -67,4 +77,5 @@ export {
   getTransactionController,
   updateTransactionController,
   deleteTransactionController,
+  getTransactionByUserIdController
 };

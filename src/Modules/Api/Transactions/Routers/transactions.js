@@ -6,10 +6,12 @@ import {
   getTransactionController,
   updateTransactionController,
   deleteTransactionController,
+  getTransactionByUserIdController
 } from "../Controllers/transactionsControllers.js";
 
 const router = express.Router();
 router.get("", authenticateToken,getAllTransactionsController);
+router.get("/user/:id", authenticateToken,getTransactionByUserIdController);
 router.post("", authenticateToken,createTransactionController);
 router.get("/:id",authenticateToken, getTransactionController);
 router.put("/:id", authenticateToken,updateTransactionController);

@@ -70,12 +70,13 @@ model Transaction {
 }
 
 model News {
-  id       Int      @id @default(autoincrement())
-  title    String
-  image    String?
-  created  DateTime @default(now())
-  author   User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  authorId Int
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  image       String?
+  created     DateTime @default(now())
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId    Int
 }
 
 model LegalCircular {
@@ -111,7 +112,7 @@ model Comment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  authorId  Int      
+  authorId  Int
   post      Post[]
 }
 

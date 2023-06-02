@@ -8,6 +8,7 @@ import postsRouter from "./src/Modules/Api/Posts/Routers/posts.js"
 import bookingsRouts from "./src/Modules/Api/Booking/Routers/booking.js"
 import commentsRouter from "./src/Modules/Api/comments/Routers/comments.js"
 import newsRouter from "./src/Modules/Api/News/Routers/news.js"
+import legalCircularRouter from "./src/Modules/Api/LegalCircular/Routers/legalCircular.js"
 
 import cors from "cors"
 dotenv.config();
@@ -23,6 +24,7 @@ app.use("/courts", courtsRouter);
 app.use("/posts", postsRouter);
 app.use("/comments", commentsRouter);
 app.use("/news", newsRouter);
+app.use("/legalCircular", legalCircularRouter);
 
 app.use("/images/profile", express.static('data/images/userProfileImages'));
 app.use("/images/idImage", express.static('data/images/userIDImages'));

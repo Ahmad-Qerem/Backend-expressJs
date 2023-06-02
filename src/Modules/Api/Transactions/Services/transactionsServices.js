@@ -3,7 +3,6 @@ const prisma = new PrismaClient();
 
 const getAllTransactions = async (userId) => {
   return await prisma.transaction.findMany({
-    where: { authorId: Number(userId) },
     orderBy: [
       {
         created: "desc",
@@ -15,6 +14,13 @@ const getTransaction = async (id) => {
   return await prisma.transaction.findUnique({
     where: {
       id: +id,
+    },
+  });
+};
+const getTransactionByUserId = async (id) => {
+  return await prisma.transaction.findMany({
+    where: {
+      authorId:+id
     },
   });
 };
@@ -61,4 +67,5 @@ export {
   getAllTransactions,
   getTransaction,
   updateTransaction,
+  getTransactionByUserId
 };
