@@ -9,7 +9,8 @@ import {
 
 const getAllPostsController = async (req, res, next) => {
   try {
-    const Transactions = await getAllPosts();
+    const search = req.query.text;
+    const Transactions = await getAllPosts(search);
     res.send(Transactions);
   } catch (error) {
     next(createError(error));

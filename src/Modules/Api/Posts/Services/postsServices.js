@@ -1,11 +1,19 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-const getAllPosts = async (userId) => {
+const getAllPosts = async (searchFilter) => {
+  let whereFilters = {};
+  if (searchFilter) {
+    whereFilters = {
+      OR: [
+        { title: { contains: searchFilter, mode: "insensitive" } },
+        { description: { contains: searchFilter, mode: "insensitive" } },
+      ],
+    };
+  }
+
   return await prisma.post.findMany({
-    where: {
-      authorId: userId,
-    },
+    where: whereFilters,
     include: {
       comments: true,
     },
