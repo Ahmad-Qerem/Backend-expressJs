@@ -2,9 +2,20 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const getAllUserBookings = async (userID) => {
-  return await prisma.booking.findMany({
+  const user = await prisma.user.findUnique({
+    where: { id: +userID },
+    include: { profile: { select: { name: true } } },
+  });
+
+  const booking = await prisma.booking.findMany({
     where: {
       userId: Number(userID),
+    },
+
+    include: {
+      lawyer: {
+        select: { profile: true },
+      },
     },
     orderBy: [
       {
@@ -12,17 +23,23 @@ const getAllUserBookings = async (userID) => {
       },
     ],
   });
+  return booking.map((book) => {
+    book.userName = user.profile.name;
+    book.lawyerName = book.lawyer.profile.name;
+    delete book.lawyer;
+    return book;
+  });
 };
 
 const getBookingByID = async (userID) => {
   return await prisma.booking.findMany({
     where: {
-      lawyerId: Number(userID),
+      userId: Number(userID),
     },
   });
 };
 const createBooking = async (book, userId) => {
-  book.userId =userId;
+  book.userId = userId;
   const user = await prisma.user.findUnique({
     where: {
       id: book.lawyerId,
@@ -32,12 +49,11 @@ const createBooking = async (book, userId) => {
     },
   });
 
-  if (user.role !== 'LAWYER') {
-    throw new Error('User is not a lawyer');
+  if (user.role !== "LAWYER") {
+    throw new Error("User is not a lawyer");
   }
 
   return await prisma.booking.create({
-
     data: {
       ...book,
     },
@@ -67,4 +83,3 @@ export {
   updateBooking,
   deleteBooking,
 };
- 
