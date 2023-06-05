@@ -17,7 +17,7 @@ const getAllUserBookings = async (userID) => {
 const getBookingByID = async (userID) => {
   return await prisma.booking.findMany({
     where: {
-      userId: Number(userID),
+      lawyerId: Number(userID),
     },
   });
 };
